@@ -1,0 +1,44 @@
+body{
+    background-color: #cbcbcb;
+}
+.error-message{
+    color: red;
+    font-size: 0.8em;
+}
+.alert-message{
+    font-size: 0.8em;
+}
+div#container{
+    width: 20em;
+    background-color: #ffffff;
+    border-radius: 0.5em;
+    margin: auto;
+}
+form#login > label{
+    color: #666666;
+}
+form#login > input{
+    color: #919191;
+    border: 1px solid #d9d9d9;
+}
+form#login > button {
+    border: none;
+    background-color: #ee5684;
+    width: 95%;
+    color: #ffffff;
+}
+#navSign{
+    display: flex;
+}
+#navSign > li{
+    list-style-type: none;
+    margin-left: 0.2em;
+    padding: 0.35em;
+}
+#navSign > li > a{
+    color: #ee5684;
+}
+#navSign > p{
+    color: #666666;
+    padding: 0.35em;
+}

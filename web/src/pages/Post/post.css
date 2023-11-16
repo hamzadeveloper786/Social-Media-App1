@@ -1,0 +1,69 @@
+div#post-create{
+    margin: auto;
+    max-width: 745px;
+}
+fieldset#post{
+    margin-top: 7em;
+}
+fieldset {
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+fieldset>legend {
+    color: #666666;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form>label {
+    margin: 0.8em;
+    color: black;
+}
+
+form>input {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: none;
+}
+
+form>textarea {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: none;
+}
+
+form>button {
+    width: 10em;
+    padding: 0.5em;
+    margin: 0.2em;
+    border: none;
+    background-color: white;
+    border-radius: 0.5em;
+    margin: auto;
+}
+
+form > div.right > img#previewImage{
+    width: 98%;
+    border-radius: 2em;
+    margin: 0.3em;
+} 
+
+div.postSuccess {
+    margin: 0.5em;
+    color: blue;
+    padding: 0.2em;
+}
+
+div.postError {
+    margin: 0.5em;
+    color: red;
+    padding: 0.2em;
+}

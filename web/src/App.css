@@ -1,0 +1,25 @@
+nav#isLogin{
+    position: fixed;
+    right: 0px;
+    left: 0px;
+    top: 0px;
+    z-index: 9999;
+}
+nav#isLogin > ul{
+    background-color: aliceblue;
+    display: flex;
+    padding-left: 0.5em;
+    justify-content: space-between;
+}
+nav#isLogin> ul > li{
+    list-style-type: none;
+    font-size: 2em;
+    margin: 0.5em;
+    padding: 0.2em;
+}
+nav#isLogin> ul > li > a:focus{
+    color: blueviolet;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+}

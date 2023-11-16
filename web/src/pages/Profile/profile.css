@@ -1,0 +1,46 @@
+div#top{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 7em;
+    max-width: 745px;
+}
+div#top > button{
+    float: right;
+    margin: 0.2em;
+    border: 1px solid crimson;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    margin-top: 0.5em;
+}
+div#top > div.info > h3{
+    display: inline-block;
+}
+div > div.dropdown{
+    float: right;
+}
+div#dropDown > button.drop-down > p#p{
+    font-size: xx-large;
+}
+div.info > h3{
+    color: darkmagenta;
+    margin: 0.5em;
+}
+form#editForm > input{
+    border: 2px solid black;
+    margin: 0.5em;
+}
+form#editForm > textarea{
+    border: 2px solid black;
+    margin: 0.5em;
+}
+form#editForm > button{
+    border: 2px solid crimson;
+    background-color: crimson;
+    color: white;
+    font-size: larger;
+    margin: 0.5em;
+}
+div#top > div.post-container > div > div#dropDown > button.drop-down{
+    background: white;
+}
