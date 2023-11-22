@@ -44,3 +44,12 @@ form#editForm > button{
 div#top > div.post-container > div > div#dropDown > button.drop-down{
     background: white;
 }
+a,
+.lists>button {
+    border: none;
+    width: 9em;
+    background: bottom;
+    color: black;
+    text-decoration: none!important;
+    margin: 0.5em 0.3em!important;
+}

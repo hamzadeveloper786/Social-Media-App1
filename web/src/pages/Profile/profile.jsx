@@ -173,40 +173,17 @@ const Profile = () =>{
           }
         });
       }
-
     console.log("state ", state)
     return(
        <div id="top">
         <div className="info">
-        {/* {profile === "noUser" ? (
-        <div className="noUser">No User Found</div>
-      ) : (
-        <>
-          <div className="profile">
-            <img
-              className="profileIMG"
-              src={profile.profileImage}
-              onClick={seePic}
-            /> */}
-{/* 
-            <h2 className="profileName">
-              {profile.firstName} {profile.lastName}
-              {state.user.userId === profile.userId ? (
-                <PencilFill
-                  onClick={changeName}
-                  style={{ fontSize: "0.5em" }}
-                  className="pencil"
-                />
-              ) : null}
-            </h2> */}
             <h3>{(profile?.data?.firstName)} {(profile?.data?.lastName)}</h3>
             <div className="dropdown" id="dropDown">
             <button className="drop-down" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <p id="p" className="bi bi-three-dots-vertical dots"></p>
             </button>
             <ul className="dropdown-menu">
-                <li className="list"><button onClick={logoutHandler}><BoxArrowLeft/> LOGOUT</button></li>
-            </ul>
+                <li className="lists"><button onClick={logoutHandler}><BoxArrowLeft/> LOGOUT</button></li></ul>
         </div>
         </div>
         {allPosts.map((post, index) => (
