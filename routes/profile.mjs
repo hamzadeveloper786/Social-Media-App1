@@ -1,7 +1,6 @@
 import express from 'express';
 import { ObjectId } from 'mongodb';
 import {client} from './../mongodb.mjs';
-// const db = client.db("crudop");
 const db = client.db("crudop");
 const users = db.collection("users");
 const col = db.collection("posts");

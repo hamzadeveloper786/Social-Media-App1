@@ -1,17 +1,23 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import './post.css';
 import { baseURL } from "../../core.mjs";
 
 const Post = () =>{
 
-    const postTitleInputRef = useRef(null);
+  const postTitleInputRef = useRef(null);
     const postBodyInputRef = useRef(null);
     const postFileInputRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [isAlert, setIsAlert] = useState(null);
+    const [isAlert, setIsAlert] = useState("");
     const [selectedImage, setSelectedImage] = useState("");
     const [toggleRefresh, setToggleRefresh] = useState(false);
+    
+    useEffect(()=>{
+      setTimeout(()=>{
+          setIsAlert("");
+      },5000);
+  });
 
     const submitHandler = async (e)=>{
         e.preventDefault();
@@ -42,7 +48,7 @@ const Post = () =>{
         }
     }
 
-    return(<div id="post-create">
+    return(<div id="postDiv">
         <fieldset id="post">
         <legend>Create a Post</legend>
         <form onSubmit={submitHandler}>
@@ -58,12 +64,12 @@ const Post = () =>{
 
         </div>
             <br />
+            <p>Upload file does not work on production mode.</p>
               <input id="postFileInput" type="file" name="postFileInput" ref={postFileInputRef}
                 accept="image/*" onChange={(e) => {
                   const base64Url = URL.createObjectURL(e.target.files[0]);
                   setSelectedImage(base64Url)
                 }} />
-                <br />
             <button type="submit">Publish Post</button>
         </form>
       </fieldset>

@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { GlobalContext } from "../../context/context.mjs";
 import axios from "axios";
 import moment from "moment";
 import { BoxArrowLeft, Trash, PencilSquare, Arrow90degRight, Chat, Heart} from "react-bootstrap-icons";
 import { baseURL } from '../../core.mjs';
+import Swal from "sweetalert2";
 import './profile.css'
 import { useParams } from "react-router-dom";
 
@@ -14,6 +15,8 @@ const Profile = () =>{
     const [profile, setProfile] = useState(null);
     const [toggleRefresh, setToggleRefresh] = useState(false);
     let { userId } = useParams();
+    const [selectedImage, setSelectedImage] = useState(null);
+    const fileInputRef = useRef();
 
     const getAllPosts = async () => {
 
@@ -102,10 +105,100 @@ const Profile = () =>{
         }
     }
 
+    if (selectedImage) {
+        Swal.fire({
+          title: "Edit profile picture",
+          html: `
+            <img src="${selectedImage}" class="profileImageSelect" />
+          `,
+          showCancelButton: true,
+          showConfirmButton: true,
+          cancelButtonText: "Cancel",
+          confirmButtonText: "Upload",
+          cancelButtonColor: "#284352",
+          confirmButtonColor: "#284352",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            let formData = new FormData();
+    
+            formData.append("profileImage", fileInputRef.current.files[0]);
+            formData.append("userId", state.user.userId);
+    
+            Swal.fire({
+              title: `<span class="loader"></span>`,
+              text: "Uploading...please don't cancel",
+              allowOutsideClick: false,
+              showConfirmButton: false,
+              onBeforeOpen: () => {
+                Swal.showLoading();
+              },
+            });
+    
+            axios
+              .post(`${baseURL}/api/v1/profilePicture`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+              })
+              .then(function (response) {
+                // console.log(response.data);
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  },
+                });
+                Toast.fire({
+                  // icon: "success",
+                  title: "Profile picture updated",
+                });
+              })
+              .catch(function (error) {
+                console.log(error);
+                Swal.fire({
+                  // icon:"error",
+                  title: "Can't update profile picture",
+                  timer: 2000,
+                  showConfirmButton: false,
+                  showCancelButton: true,
+                  cancelButtonColorL: "#284352",
+                  cancelButtonText: "Ok",
+                });
+              });
+    
+            setSelectedImage("");
+          }
+        });
+      }
+
     console.log("state ", state)
     return(
        <div id="top">
         <div className="info">
+        {/* {profile === "noUser" ? (
+        <div className="noUser">No User Found</div>
+      ) : (
+        <>
+          <div className="profile">
+            <img
+              className="profileIMG"
+              src={profile.profileImage}
+              onClick={seePic}
+            /> */}
+{/* 
+            <h2 className="profileName">
+              {profile.firstName} {profile.lastName}
+              {state.user.userId === profile.userId ? (
+                <PencilFill
+                  onClick={changeName}
+                  style={{ fontSize: "0.5em" }}
+                  className="pencil"
+                />
+              ) : null}
+            </h2> */}
             <h3>{(profile?.data?.firstName)} {(profile?.data?.lastName)}</h3>
             <div className="dropdown" id="dropDown">
             <button className="drop-down" type="button" data-bs-toggle="dropdown" aria-expanded="false">

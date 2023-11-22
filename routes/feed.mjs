@@ -28,6 +28,7 @@ router.get('/feeds', async (req, res, next) => {
             createdAt: 1,
             author:1,
             img:1,
+            author_id:1,
             likes: { $ifNull: ['$likes', []] },
             authorObject: {
                 firstName: '$authorObject.firstName',

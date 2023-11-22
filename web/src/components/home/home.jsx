@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 import './home.css'
+import { useNavigate } from "react-router-dom";
 import { baseURL } from '../../core.mjs';
 import { Arrow90degRight, Chat, Heart } from "react-bootstrap-icons";
 
 const Home = () => {
-
+    
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [allPosts, setAllPosts] = useState([]);
     const [isAlert, setIsAlert] = useState(null);
@@ -44,6 +46,9 @@ const Home = () => {
               console.log(error?.data);
             }
           };
+          const getProfile = async (author_id) => {
+            navigate(`/profile/${author_id}`);
+          };
 
     return (<div>
         <div id="postTop">
@@ -52,7 +57,7 @@ const Home = () => {
                 <div key={post._id} className="post-container" >
                     <div>
                     <div id="postN">
-                        <div id="profilePic"></div>
+                        <div class="profilePic" onClick={() => {getProfile(post.author_id);}}></div>
                         <div id="postPre">
                             <h2>{post.author}</h2>
                             <span id="time">{moment(post.createdAt).fromNow()}</span>

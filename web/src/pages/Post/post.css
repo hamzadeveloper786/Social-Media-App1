@@ -1,8 +1,6 @@
-div#post-create{
-    margin: auto;
-    max-width: 745px;
-}
 fieldset#post{
+    max-width: 745px;
+    margin: auto;
     margin-top: 7em;
 }
 fieldset {

@@ -4,6 +4,7 @@ import moment from 'moment';
 import jwt from 'jsonwebtoken';
 import { stringToHash, verifyHash, validateHash } from "bcrypt-inzi";
 const userCollection = client.db("crudop").collection("users");
+const otpCollection = client.db("crudop").collection("otpCodes");
 let router = express.Router();
 
 router.post('/login', async (req, res, next) => {
@@ -107,6 +108,21 @@ router.post('/signup', async (req, res, next) => {
         console.log("Error in Mongodb ", e);
         res.status(500).send("Server Error. Try again later!")
     }
+})
+router.post(`/forget-pass`, async(req, res, next) =>{
+    if(!req.body?.email){
+        res.status(403).send(`required parameters missing, example request body: {email: "some@email.com"}`)
+        return;
+}
+req.body.email = req.body.email.toLowerCase();
+try{
+    const user = await userCollection.findOne({email: req.body.email});
+    if(!user){
+        res.status(403).send({message: "User not found!"});
+        return;
+    }
+}
+catch{}
 })
 
 export default router

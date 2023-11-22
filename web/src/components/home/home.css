@@ -125,7 +125,7 @@ span{
   div.post-container > div > div#postN{
     display: flex;
   }
-  div.post-container > div > div#postN > div#profilePic{
+  div.post-container > div > div#postN > div.profilePic{
     border: 1px solid black;
     width: 4em;
     height: 4em;
