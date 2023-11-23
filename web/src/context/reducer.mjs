@@ -9,6 +9,7 @@ export const reducer = (state, action) => {
             firstName: action.payload?.firstName,
             lastName: action.payload?.lastName,
             email: action.payload?.email,
+            createdAt: action.payload?.createdAt,
           }
           return { ...state, user, role, isLogin: true }
         }}

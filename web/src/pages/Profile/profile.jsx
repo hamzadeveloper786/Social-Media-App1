@@ -2,14 +2,14 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { GlobalContext } from "../../context/context.mjs";
 import axios from "axios";
 import moment from "moment";
-import { BoxArrowLeft, Trash, PencilSquare, Arrow90degRight, Chat, Heart} from "react-bootstrap-icons";
+import { Trash, PencilSquare, PencilFill, Arrow90degRight, Chat, Heart } from "react-bootstrap-icons";
 import { baseURL } from '../../core.mjs';
 import Swal from "sweetalert2";
 import './profile.css'
 import { useParams } from "react-router-dom";
 
-const Profile = () =>{
-    let {state, dispatch} = useContext(GlobalContext);
+const Profile = () => {
+    let { state, dispatch } = useContext(GlobalContext);
     const [isLoading, setIsLoading] = useState(false);
     const [allPosts, setAllPosts] = useState([]);
     const [profile, setProfile] = useState(null);
@@ -55,15 +55,15 @@ const Profile = () =>{
     }
         , [toggleRefresh]);
 
-    const logoutHandler = async () =>{
-        try{
-            await axios.post(`${baseURL}/api/v1/logout` , {} , {
+    const logoutHandler = async () => {
+        try {
+            await axios.post(`${baseURL}/api/v1/logout`, {}, {
                 withCredentials: true
             });
             dispatch({
                 type: "USER_LOGOUT",
             });
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
     }
@@ -107,88 +107,149 @@ const Profile = () =>{
 
     if (selectedImage) {
         Swal.fire({
-          title: "Edit profile picture",
-          html: `
-            <img src="${selectedImage}" class="profileImageSelect" />
+            title: "Edit profile picture",
+            html: `
+            <img src="${selectedImage}" class="profileImageSelect" style="width: -webkit-fill-available;" />
           `,
-          showCancelButton: true,
-          showConfirmButton: true,
-          cancelButtonText: "Cancel",
-          confirmButtonText: "Upload",
-          cancelButtonColor: "#284352",
-          confirmButtonColor: "#284352",
+            showCancelButton: true,
+            showConfirmButton: true,
+            cancelButtonText: "Cancel",
+            confirmButtonText: "Upload",
+            cancelButtonColor: "#284352",
+            confirmButtonColor: "#284352",
         }).then((result) => {
-          if (result.isConfirmed) {
-            let formData = new FormData();
-    
-            formData.append("profileImage", fileInputRef.current.files[0]);
-            formData.append("userId", state.user.userId);
-    
-            Swal.fire({
-              title: `<span class="loader"></span>`,
-              text: "Uploading...please don't cancel",
-              allowOutsideClick: false,
-              showConfirmButton: false,
-              onBeforeOpen: () => {
-                Swal.showLoading();
-              },
-            });
-    
-            axios
-              .post(`${baseURL}/api/v1/profilePicture`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-              })
-              .then(function (response) {
-                // console.log(response.data);
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timer: 3000,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                  },
-                });
-                Toast.fire({
-                  // icon: "success",
-                  title: "Profile picture updated",
-                });
-              })
-              .catch(function (error) {
-                console.log(error);
+            if (result.isConfirmed) {
+                let formData = new FormData();
+
+                formData.append("profileImage", fileInputRef.current.files[0]);
+                formData.append("_id", profile.data._id);
+
                 Swal.fire({
-                  // icon:"error",
-                  title: "Can't update profile picture",
-                  timer: 2000,
-                  showConfirmButton: false,
-                  showCancelButton: true,
-                  cancelButtonColorL: "#284352",
-                  cancelButtonText: "Ok",
+                    title: `<span class="loader"></span>`,
+                    text: "Uploading...please don't cancel",
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    },
                 });
-              });
-    
-            setSelectedImage("");
-          }
+
+                axios
+                    .post(`${baseURL}/api/v1/profilePicture`, formData, {
+                        headers: { "Content-Type": "multipart/form-data" },
+                    })
+                    .then(function (response) {
+                        // console.log(response.data);
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            },
+                        });
+                        Toast.fire({
+                            // icon: "success",
+                            title: "Profile picture updated",
+                        });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        Swal.fire({
+                            // icon:"error",
+                            title: "Can't update profile picture",
+                            timer: 2000,
+                            showConfirmButton: false,
+                            showCancelButton: true,
+                            cancelButtonColorL: "#284352",
+                            cancelButtonText: "Ok",
+                        });
+                    });
+
+                setSelectedImage("");
+            }
         });
-      }
+    }
+    const seePic = () => {
+        Swal.fire({
+            html: `
+            <img src="${profile?.profileImage}" class="profileImageSelect" />
+          `,
+            showCancelButton: false,
+            showConfirmButton: true,
+            confirmButtonText: "Download",
+            confirmButtonColor: "#284352",
+            preConfirm: async () => {
+                var element = document.createElement("a");
+                var file = new Blob([`"${profile?.data?.profileImage}"`], { type: "image/*" });
+                element.href = URL.createObjectURL(file);
+                element.download = `profile-photo-${new Date().toLocaleString()}`;
+                element.click();
+            },
+        });
+    };
+
     console.log("state ", state)
-    return(
-       <div id="top">
-        <div className="info">
-            <h3>{(profile?.data?.firstName)} {(profile?.data?.lastName)}</h3>
-            <div className="dropdown" id="dropDown">
-            <button className="drop-down" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <p id="p" className="bi bi-three-dots-vertical dots"></p>
-            </button>
-            <ul className="dropdown-menu">
-                <li className="lists"><button onClick={logoutHandler}><BoxArrowLeft/> LOGOUT</button></li></ul>
-        </div>
-        </div>
-        {allPosts.map((post, index) => (
+    return (
+        <div id="top">
+            <div className="profile">
+                <img
+                    className="profileIMG"
+                    src={profile?.profileImage}
+                    onClick={seePic}
+                />
+
+                <h2 className="profileName">
+                    {profile?.data?.firstName} {profile?.data?.lastName}
+                </h2>
+
+                <h3 className="profileEmail">
+                    {(profile?.data?._id === profile?.data?._id) ? (
+                        <span style={{ color: "#212121", margin: 0 }}>
+                            {`${profile?.data?.email} `}{" "}
+                        </span>
+                    ) : null}
+                    <span style={{ color: "#212121", margin: 0 }}>
+                        Joined {`${moment(profile?.data?.createdAt).format("ll")} `}
+                    </span>
+                </h3>
+
+
+                <div className="profileImageContainer">
+                    <label className="editIMG" htmlFor="profileImage">
+                        {profile?.user?._id === profile?.data?._id ? (
+                            <PencilFill
+                                style={{ fontSize: "0.8em" }}
+                                className="pencil"
+                            />
+                        ) : null}
+                    </label>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        className="file hidden"
+                        id="profileImage"
+                        accept="image/*"
+                        onChange={(e) => {
+                            const base64Url = URL.createObjectURL(e.target.files[0]);
+                            setSelectedImage(base64Url);
+                        }}
+                    />
+                </div>
+                <div className="profileActions">
+                    {state.user._id === profile?.data?._id ? (
+                        <button className="logOutButton" onClick={logoutHandler}>
+                            Log Out
+                        </button>
+                    ) : null}
+                </div>
+            </div>
+            {allPosts.map((post, index) => (
                 <div key={post._id} className="post-container" >
-                     {(post.isEdit) ?
+                    {(post.isEdit) ?
                         <form id="editForm" onSubmit={editPost}>
                             <input type="text" disabled hidden value={post._id} />
                             <input type="text" defaultValue={post.title} />
@@ -202,42 +263,42 @@ const Profile = () =>{
                         </form> :
                         <div>
                             <div className="dropdown" id="dropDown">
-    <button className="drop-down" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <p className="bi bi-three-dots-vertical dots"></p>
-    </button>
-    <ul className="dropdown-menu">
-        <li className="list"><button type="button" onClick={() => {
-            post.isEdit = true;
-            setAllPosts([...allPosts]);
-        }}><PencilSquare /> Edit</button></li>
-        <li className="list"><button type="button" onClick={(e) => {
-            deletePostHandler(post._id);
-        }}><Trash /> Delete</button></li>
-    </ul>
-</div>
-                        <div id="postN">
-                            <div id="profilePic"></div>
-                            <div id="postPre">
-                                <h2>{post.author}</h2>
-                                <span id="time">{moment(post.createdAt).fromNow()}</span>
-                                <h4>{post.title}</h4>
-                                <p>{post.text}</p>
-                                {post.img &&
-                  <>
-                    <img src={post.img} alt="post image" />
-                  </>
-                }
+                                <button className="drop-down" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <p className="bi bi-three-dots-vertical dots"></p>
+                                </button>
+                                <ul className="dropdown-menu">
+                                    <li className="list"><button type="button" onClick={() => {
+                                        post.isEdit = true;
+                                        setAllPosts([...allPosts]);
+                                    }}><PencilSquare /> Edit</button></li>
+                                    <li className="list"><button type="button" onClick={(e) => {
+                                        deletePostHandler(post._id);
+                                    }}><Trash /> Delete</button></li>
+                                </ul>
                             </div>
-                    </div>
-                    <div className="postFooter">
-                        <div className="button"><Chat /></div>
-                        <div className="button"><Arrow90degRight /></div>
-                        <div className="button"><Heart /> ({post?.likes?.length})</div>
-                    </div>
-                    </div>
+                            <div id="postN">
+                                <div id="profilePic"></div>
+                                <div id="postPre">
+                                    <h2>{post.author}</h2>
+                                    <span id="time">{moment(post.createdAt).fromNow()}</span>
+                                    <h4>{post.title}</h4>
+                                    <p>{post.text}</p>
+                                    {post.img &&
+                                        <>
+                                            <img src={post.img} alt="post image" />
+                                        </>
+                                    }
+                                </div>
+                            </div>
+                            <div className="postFooter">
+                                <div className="button"><Chat /></div>
+                                <div className="button"><Arrow90degRight /></div>
+                                <div className="button"><Heart /> ({post?.likes?.length})</div>
+                            </div>
+                        </div>
                     }
-       </div>))}
-       </div>
+                </div>))}
+        </div>
     )
 }
 

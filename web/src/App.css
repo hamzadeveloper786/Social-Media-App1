@@ -22,4 +22,6 @@ nav#isLogin> ul > li > a:focus{
 }
 body{
     font-family: 'Roboto', sans-serif;
+    font-weight: 700!important;
+    outline: none!important;
 }

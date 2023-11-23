@@ -22,6 +22,7 @@ const profieMiddlewear = async (req, res, next) =>{
             firstName: profile.firstName,
             lastName: profile.lastName,
             email: profile.email,
+            createdAt: profile.createdAt,
         }
     });
 }catch(e){
@@ -54,5 +55,6 @@ router.get('/user/posts', async(req, res, next) => {
             res.status(500).send({message: "Server Error. Try again later!"})
         }
 })
+
 
 export default router;
