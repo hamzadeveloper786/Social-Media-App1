@@ -2,7 +2,7 @@ div#top{
     display: flex;
     flex-direction: column;
     margin: auto;
-    margin-top: 7em;
+    margin-top: 14em;
     max-width: 745px;
 }
 div#top > button{

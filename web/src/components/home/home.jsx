@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import moment from "moment";
+import { GlobalContext } from "../../context/context.mjs";
+import { HouseFill, PlusCircle, PersonFill ,Arrow90degRight, Chat, Heart, ChatRight } from "react-bootstrap-icons";
 import './home.css'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { baseURL } from '../../core.mjs';
-import { Arrow90degRight, Chat, Heart } from "react-bootstrap-icons";
+import logo from '../../assests/transparent background.png'
 
 const Home = () => {
     
@@ -13,6 +15,7 @@ const Home = () => {
     const [allPosts, setAllPosts] = useState([]);
     const [isAlert, setIsAlert] = useState(null);
     const [toggleRefresh, setToggleRefresh] = useState(false);
+    const { state, dispatch } = useContext(GlobalContext);
 
     const getAllPosts = async () => {
         try {
@@ -49,10 +52,26 @@ const Home = () => {
           const getProfile = async (author_id) => {
             navigate(`/profile/${author_id}`);
           };
+          const seePost = async (_id) => {
+            navigate(`/post/${_id}`);
+          };
 
     return (<div>
+        <div id="logoTop">
+                    <img src={logo} alt="u-app"/>
+                    <div>
+                        <li><Link to={'/chat'}><ChatRight></ChatRight></Link></li>
+                    </div>
+                </div>
+                    <nav id='isLogin'>
+                        <ul>
+                            <li><Link to={'/'}><HouseFill></HouseFill></Link></li>
+                            <li><Link to={'/post'}><PlusCircle></PlusCircle></Link></li>
+                            <li><Link to={`/profile/${state.user._id}`}><PersonFill></PersonFill></Link></li>
+                        </ul>
+                    </nav>
         <div id="postTop">
-            <span>{isLoading && <div id="loader"><div className="loading-container"><div className="loading-text"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div></div></div>}</span>
+            <span>{ isLoading && <div id="loader"><div className="loading-container"><div className="loading-text"><span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div></div></div>}</span>
             {allPosts.map((post, index) => (
                 <div key={post._id} className="post-container" >
                     <div>
@@ -71,7 +90,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="postFooter">
-                        <div className="button"><Chat /></div>
+                        <div className="button" onClick={()=>{seePost(post._id)}} ><Chat /></div>
                         <div className="button"><Arrow90degRight /></div>
                         <div className="button"onClick={(e) => {doLikeHandler(post._id);}}><Heart /> ({post?.likes?.length})</div>
                     </div>

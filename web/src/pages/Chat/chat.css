@@ -1,0 +1,10 @@
+div > #arrow{
+    font-size: 1.2rem;
+    margin: 0.5em;
+    color: #d12669;
+}
+div#chat{
+    margin-top: 15em;
+    text-align: center;
+    color: #d12669!important;
+}

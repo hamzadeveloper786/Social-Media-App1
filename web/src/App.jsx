@@ -1,6 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { Routes, Route, Link, Navigate } from 'react-router-dom';
-import { HouseFill, PlusCircle, PersonFill } from 'react-bootstrap-icons';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { GlobalContext } from './context/context.mjs';
 import axios from 'axios';
 import Home from './components/home/home';
@@ -8,7 +7,10 @@ import Post from './pages/Post/post';
 import Profile from './pages/Profile/profile'
 import Login from './pages/Login/login';
 import SignUp from './pages/Signup/signup';
-import splash from '../src/assests/splash.gif'
+import Chat from './pages/Chat/chat.jsx';
+import ForgetPassword from './pages/Forget-Password/forget-pass.jsx';
+import SingleComment from './pages/SingleComment/SingleComment.jsx';
+import splash from '../src/assests/splash.gif';
 import './App.css';
 import { baseURL } from './core.mjs'
 
@@ -53,17 +55,12 @@ const App = () => {
         <div>
             {state.isLogin === true ? (
                 <>
-                    <nav id='isLogin'>
-                        <ul>
-                            <li><Link to={'/'}><HouseFill></HouseFill></Link></li>
-                            <li><Link to={'/post'}><PlusCircle></PlusCircle></Link></li>
-                            <li><Link to={`/profile/${state.user._id}`}><PersonFill></PersonFill></Link></li>
-                        </ul>
-                    </nav>
                     <Routes>
                         <Route path='/' element={<Home />} />
                         <Route path="profile/:userId" element={<Profile />} />
                         <Route path="post" element={<Post />} />
+                        <Route path="post/:postId" element={<SingleComment />} />
+                        <Route path="chat" element={<Chat />} />
                         <Route path='*' element={<Navigate to='/' />} />
                     </Routes>
                 </>
@@ -74,6 +71,7 @@ const App = () => {
             {state.isLogin === false ? (<Routes>
                 <Route path='/signup' element={<SignUp />} />
                 <Route path='/login' element={<Login />} />
+                <Route path='forget-password' element={<ForgetPassword />} />
                 <Route path='*' element={<Navigate to='/login' />} />
             </Routes>) : null}
 

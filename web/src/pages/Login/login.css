@@ -1,5 +1,170 @@
-body{
-    background-color: #cbcbcb;
+*{
+    outline: none!important;
+}
+div#logContainer{
+    background-image: url(../../assests/download.jpg) ;
+    align-items: center;
+    background-repeat: repeat;
+    display: flex;
+    justify-content: center;
+    width: 100%!important;
+}
+h3.desktopHandling{
+    align-items: flex-start;
+    align-self: self-start;
+    border-radius: 0px 0px 200px 0px;
+    background: #d12669;
+    color: #fff;
+    display: flex;
+    font-size: 1.8em;
+    height: 7em;
+    justify-content: left;
+    justify-self: self-start;
+    left: 0;
+    padding-left: 1em;
+    padding-top: 1.5em;
+    position: fixed;
+    text-align: left;
+    top: 0;
+    width: 7em!important;
+}
+div#back > div#logContainer > div.logLog{
+    align-items: start;
+    color: #284352;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    height: 100%;
+    justify-content: center;
+    margin-top: 4em;
+    padding: 0 1.5em;
+}
+div.logLog > img.logo {
+    height: 10em;
+    object-fit: cover;
+    width: 15em;
+}
+div.logLog > h1.line {
+    border-bottom: 1px solid #d12669;
+    padding-bottom: 0.5em;
+    text-align: center;
+    width: 7em;
+}
+div#logContainer > div.logLog > h1.line > span.crimson {
+    color: #d12669;
+    margin-left: 0;
+}
+div#logContainer > div.logLog > h1.line > span.black {
+    color: black;
+    margin-left: 0;
+}
+div#logContainer > div.logLog > p.leftNav {
+    text-align: left;
+    width: 100%;
+}
+div#logContainer > div.logLog > p.leftNav > a.centre {
+    color: #d12669;
+    font-size: 1em;
+    font-weight: 700;
+    margin-left: 1em!important;
+}
+div.logLog > p{
+    color: black!important;
+}
+form#login{
+    align-items: center;
+    border-radius: 10px;
+    border-radius: 0!important;
+    color: #d12669;
+    font-size: .7em;
+    height: 100vh!important;
+    justify-content: space-between;
+    margin: none!important;
+    max-width: 375px;
+    min-width: 250px;
+    padding: 0!important;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    width: 100%;
+}
+form#login > div#topHead{
+    border-radius: 0px 0px 200px 200px;
+    background: #d12669;
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.7em;
+    opacity: 0;
+    width: 12em!important;
+}
+form#login > div#topHead > h2.centre{
+    text-align: center;
+    width: 100%;
+}
+form#login > div#topHead > h2.mobile-handling{
+    font-size: 1.8em;
+    line-height: 1.8em;
+    padding: 0.5em 1em;
+}
+form.login-signup > *{
+    max-width: 425px;
+    min-width: 250px;
+}
+form.login-signup .input{
+    width: 80%!important;
+}
+form.log .input{
+    font-size: 1rem!important;
+    border-bottom: 1px solid #d12669;
+}
+form > .input{
+    background-color: #F5F5F5 !important;
+    border: none;
+    border-radius: 0!important;
+    color: #d12669!important;
+    font-weight: 400!important;
+    height: auto;
+    padding: 1em 0.5em!important;
+}
+form.login-signup > p.forget{
+    color: #d12669!important;
+    cursor: pointer;
+    font-size: 1.3em!important;
+    padding: 1em 2em;
+    text-align: right;
+    width: 100%;
+}
+form.login-signup >button.button{
+    background-color: #d12669!important;
+    border: none;
+    border-radius: 50px!important;
+    color: #f6f2f1;
+    font-weight: 700;
+    height: fit-content;
+    padding: 1em 0.5em!important;
+    font-size: 1.1em!important;
+    margin: 0.5em 0!important;
+    width: 80%!important;
+}
+form.login-signup > div.last{
+    align-items: center;
+    background-color: #d12669;
+    border-radius: 84px 85px 0px 0px;
+    display: flex;
+    font-size: 1.5em;
+    justify-content: center;
+    padding: 1em 2em 0em;
+    visibility: hidden;
+}
+form.login-signup > div.last > p.centre{
+    color: #f6f2f1;
+    font-size: .8em;
+}
+form.login-signup > div.last > p.centre a.centre{
+    color: white!important;
+    font-size: 1em;
+    margin-left: 1em!important;
 }
 .error-message{
     color: red;
@@ -8,37 +173,20 @@ body{
 .alert-message{
     font-size: 0.8em;
 }
-div#container{
-    width: 20em;
-    background-color: #ffffff;
-    border-radius: 0.5em;
-    margin: auto;
+@media only screen and (max-width: 760px){
+div#logContainer > h3.desktopHandling{
+    display: none!important;
 }
-form#login > label{
-    color: #666666;
+div#logContainer > div.logLog{
+    display: none!important;
 }
-form#login > input{
-    color: #919191;
-    border: 1px solid #d9d9d9;
+.login-signup {
+    min-width: 100%;
 }
-form#login > button {
-    border: none;
-    background-color: #ee5684;
-    width: 95%;
-    color: #ffffff;
+form#login > div#topHead{
+    opacity: 1;
 }
-#navSign{
-    display: flex;
+form.login-signup > div.last {
+    visibility: visible;
 }
-#navSign > li{
-    list-style-type: none;
-    margin-left: 0.2em;
-    padding: 0.35em;
-}
-#navSign > li > a{
-    color: #ee5684;
-}
-#navSign > p{
-    color: #666666;
-    padding: 0.35em;
 }

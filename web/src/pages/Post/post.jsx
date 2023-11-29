@@ -1,6 +1,10 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { ChatRight, HouseFill, PersonFill, PlusCircle } from "react-bootstrap-icons";
+import { GlobalContext } from "../../context/context.mjs";
 import './post.css';
+import logo from "../../assests/transparent background.png";
 import { baseURL } from "../../core.mjs";
 
 const Post = () =>{
@@ -12,6 +16,7 @@ const Post = () =>{
     const [isAlert, setIsAlert] = useState("");
     const [selectedImage, setSelectedImage] = useState("");
     const [toggleRefresh, setToggleRefresh] = useState(false);
+    let { state, dispatch } = useContext(GlobalContext);
     
     useEffect(()=>{
       setTimeout(()=>{
@@ -49,6 +54,19 @@ const Post = () =>{
     }
 
     return(<div id="postDiv">
+      <div id="logoTop">
+                    <img src={logo} alt="u-app"/>
+                    <div>
+                        <li><Link to={'/chat'}><ChatRight></ChatRight></Link></li>
+                    </div>
+                </div>
+                    <nav id='isLogin'>
+                        <ul>
+                            <li><Link to={'/'}><HouseFill></HouseFill></Link></li>
+                            <li><Link to={'/post'}><PlusCircle></PlusCircle></Link></li>
+                            <li><Link to={`/profile/${state.user._id}`}><PersonFill></PersonFill></Link></li>
+                        </ul>
+                    </nav>
         <fieldset id="post">
         <legend>Create a Post</legend>
         <form onSubmit={submitHandler}>

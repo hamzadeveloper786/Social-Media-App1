@@ -2,10 +2,12 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { GlobalContext } from "../../context/context.mjs";
 import axios from "axios";
 import moment from "moment";
-import { Trash, PencilSquare, PencilFill, Arrow90degRight, Chat, Heart } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
+import { Trash, PencilSquare, PencilFill, Arrow90degRight, Chat, Heart, ChatRight, HouseFill, PersonFill, PlusCircle } from "react-bootstrap-icons";
 import { baseURL } from '../../core.mjs';
 import Swal from "sweetalert2";
-import './profile.css'
+import logo from '../../assests/transparent background.png';
+import './profile.css';
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
@@ -180,21 +182,27 @@ const Profile = () => {
           `,
             showCancelButton: false,
             showConfirmButton: true,
-            confirmButtonText: "Download",
+            confirmButtonText: "Cancel",
             confirmButtonColor: "#284352",
-            preConfirm: async () => {
-                var element = document.createElement("a");
-                var file = new Blob([`"${profile?.data?.profileImage}"`], { type: "image/*" });
-                element.href = URL.createObjectURL(file);
-                element.download = `profile-photo-${new Date().toLocaleString()}`;
-                element.click();
-            },
         });
     };
 
     console.log("state ", state)
-    return (
-        <div id="top">
+    return (<div>
+        <div id="logoTop">
+                    <img src={logo} alt="u-app"/>
+                    <div>
+                        <li><Link to={'/chat'}><ChatRight></ChatRight></Link></li>
+                    </div>
+                </div>
+                    <nav id='isLogin'>
+                        <ul>
+                            <li><Link to={'/'}><HouseFill></HouseFill></Link></li>
+                            <li><Link to={'/post'}><PlusCircle></PlusCircle></Link></li>
+                            <li><Link to={`/profile/${state.user._id}`}><PersonFill></PersonFill></Link></li>
+                        </ul>
+                    </nav>
+    <div id="top">
             <div className="profile">
                 <img
                     className="profileIMG"
@@ -207,7 +215,7 @@ const Profile = () => {
                 </h2>
 
                 <h3 className="profileEmail">
-                    {(profile?.data?._id === profile?.data?._id) ? (
+                    {(state?.user?._id === profile?.data?._id) ? (
                         <span style={{ color: "#212121", margin: 0 }}>
                             {`${profile?.data?.email} `}{" "}
                         </span>
@@ -298,6 +306,7 @@ const Profile = () => {
                         </div>
                     }
                 </div>))}
+        </div>
         </div>
     )
 }

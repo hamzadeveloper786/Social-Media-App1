@@ -1,15 +1,17 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
 import './login.css'
 import { GlobalContext } from "../../context/context.mjs";
 import { baseURL } from "../../core.mjs";
+import { useNavigate } from 'react-router-dom';
+import logo from '../../assests/transparent background.png';
 
 const Login = () => {
 
     let {state, dispatch} = useContext(GlobalContext);
     console.log(state);
 
+    const navigate = useNavigate()
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const [alertMessage, setAlertMessage] = useState("");
@@ -47,30 +49,40 @@ const Login = () => {
     
 
     return (
-        <div>
-            <div id="container" className="p-4 mt-5">
-                <h3 className="text-left text-2xl mb-4 mt-4 ml-2 ">LOGIN</h3>
-                <form id="login" onSubmit={loginSubmitHandler}>
-                    <label className="text-left ml-2" htmlFor="email">Email:</label>
-                    
-                    <input type="email" ref={emailRef} id='email' required autoComplete="email" />
-                    <br />
-                    <label htmlFor="password" className="text-left ml-2">Password:</label>
-                    <input type="password" ref={passwordRef} minLength={4} maxLength={8} id="password" required autoComplete="current-password" />
-                    <br />
-
-                    <button type="submit">LOGIN</button>
-                    <ul id="navSign">
-                        <p>
-                        Not a Member 
+        <div id="back">
+            <div id="logContainer">
+                <h3 className="desktopHandling">Welcome <br/> Back👋</h3>
+                <div className="logLog">
+                    <img className="logo" src={logo} alt="u-App"/>
+                    <h1 className="line"><span className="crimson">U</span> <span className="black">App</span></h1>
+                    <p>A Social Media App</p>
+                    <p className="leftNav">
+                        Don't have an account?
+                        <a href="/signup" className="centre">SignUp</a>
+                    </p>
+                </div>
+                <form id="login"className="log login-signup" onSubmit={loginSubmitHandler}>
+                    <div id="topHead">
+                        <h2 className="centre mobile-handling">
+                            Welcome <br /> Back👋
+                        </h2>
+                    </div>
+                    <input type="email" ref={emailRef} id='email' required className="input" placeholder="example@gmail.com" />
+                    <input type="password" ref={passwordRef} minLength={4} maxLength={8} className="input" placeholder="Password" id="password" required />
+                    <p onClick={() => { navigate('/forget-password') } } className="forget">Forgot Password</p>
+                    <p className="alert-message">{alertMessage}</p>
+                    <p className="error-message">{errorMessage}</p>
+                    <button type="submit" className="button">LOGIN</button>
+                    <div className="last">
+                        <p className="centre">
+                            Don't have an account?
+                            <a className="centre" href="/signup">SignUp</a>
                         </p>
-                    <li><Link to='/signup'>SIGNUUP</Link></li>
-                    </ul>
-                </form><br />
-                <div className='alert-message'>{alertMessage}</div>
-                <div className='error-message'>{errorMessage}</div>
-            </div>
+                    </div>
+                    </form>
+                </div>
         </div>
     )
 };
+
 export default Login;

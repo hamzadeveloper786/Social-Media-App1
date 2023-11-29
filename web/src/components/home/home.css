@@ -1,5 +1,5 @@
 body {
-    background: #eae0e0;
+    background: #c8c7c7;
     margin: auto;
     min-width: 375px;
 }
@@ -156,7 +156,7 @@ span{
     display: flex;
     flex-direction: column;
     margin: auto;
-    margin-top: 7em;
+    margin-top: 14em;
     max-width: 745px;
   }
   div.post-container > div> div#postN > div#postPre > span#time{
