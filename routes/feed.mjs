@@ -9,7 +9,7 @@ router.get('/feeds', async (req, res, next) => {
     const cursor = col.aggregate([{
         $lookup: {
             from: "users", // users collection name
-            localField: 'authorId',
+            localField: 'author_id',
             foreignField: '_id',
             as: 'authorObject'
         },
@@ -26,7 +26,6 @@ router.get('/feeds', async (req, res, next) => {
             text: 1,
             title: 1,
             createdAt: 1,
-            author:1,
             img:1,
             author_id:1,
             likes: { $ifNull: ['$likes', []] },
@@ -41,7 +40,7 @@ router.get('/feeds', async (req, res, next) => {
         $skip: 0,
     },
     {
-        $limit: 100,
+        $limit: 20,
     },
     {
         $sort: { _id: -1 }
