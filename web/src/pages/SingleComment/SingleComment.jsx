@@ -3,7 +3,7 @@ import moment from "moment";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Arrow90degRight, Chat, Heart} from "react-bootstrap-icons";
+import { Arrow90degRight, Chat, Heart, Send } from "react-bootstrap-icons";
 import { baseURL } from "../../core.mjs"
 import './singleComment.css'
 
@@ -65,12 +65,13 @@ const SingleComment = () => {
                 </div>
                 <div id="comment">
                     <h4>Comments</h4>
-                    <div id="single-comment">
-                        <p>Some Comment</p>
-                    </div>
                     <form>
-                        <input type="text" />
+                        <input type="text" placeholder="Enter your Comment" />
+                        <button type="submit"><Send/></button>
                     </form>
+                    <div id="single-comment">
+                        <p>Some Comments...</p>
+                    </div>
                 </div>
                 </div>
     </div>

@@ -12,7 +12,7 @@ fieldset>legend {
     color: #666666;
 }
 
-form {
+fieldset > form {
     display: flex;
     flex-direction: column;
 }

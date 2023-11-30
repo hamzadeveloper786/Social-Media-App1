@@ -3,3 +3,18 @@ div#comment > h4{
     margin: 0.5em;
     color: crimson;
 }
+div#comment > form > input{
+    border: 1px solid black;
+    border-radius: 0.5em;
+    width: 75%;
+    margin: 0.5em;
+    padding: 1em;
+}
+div#comment > form > button {
+    border: 1px solid black;
+    margin-top: 0.5em; 
+    margin: 0px; 
+    margin-top: 0.5em; 
+    padding: 1em;
+    margin-left: -22px;
+}

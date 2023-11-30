@@ -1,8 +1,8 @@
 import express from 'express';
-let router = express.Router();
 import {client} from './../mongodb.mjs';
 const db = client.db("crudop");
 const col = db.collection("posts");
+let router = express.Router();
 
 router.get('/feeds', async (req, res, next) => {
     console.log('Get all feeds!', new Date());
