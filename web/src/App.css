@@ -8,7 +8,7 @@ div#logoTop{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #c8c7c7;
+  background-color: #F5F5F5;
   position: fixed;
   right: 0px;
   left: 0px;
@@ -34,7 +34,7 @@ nav#isLogin{
   z-index: 9999;
 }
 nav#isLogin > ul{
-  background-color: aliceblue;
+  background-color: #4aaaff;
   display: flex;
   padding-left: 0.5em;
   justify-content: space-between;

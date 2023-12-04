@@ -114,7 +114,6 @@ router.post('/post', async (req, res, next) => {
                 const insertResponse = await col.insertOne({
                     title: req.body.title,
                     text: req.body.text,
-                    author: req.decoded.firstName + " " + req.decoded.lastName,
                     author_id: new ObjectId(req.decoded._id),
                     createdAt: new Date(),
                     likes: [],
@@ -174,44 +173,25 @@ router.delete('/post/:postId', async (req, res, next) => {
     }
 
 });
-//search a post
-// router.get('/post/:postId', async(req, res, next) => {
-//     console.log('Searching a post!', new Date());
-
-//     if(ObjectId.isValid(req.params.postId)){
-//         res.status(403).send({message: "Post id must be a valid number!!"});
-//         console.log({message: "Post id doesnot match!"})
-//         return;
-//     }
-
-//     try{
-//         let search = await col.findOne({_id : new ObjectId(req.params.postId) });
-//         console.log("Result : ", search);
-//         res.send(search);
-//     }catch(e){
-//         console.log("Error in Mongodb ", e);
-//         res.status(500).send({message: "Server Error. Try again later!"})
-//     }
-// })
-router.get('/post/:postId', async (req, res, next) => {
+//get a single post
+router.get('/post/:postId', async(req, res, next) => {
     console.log('Searching a post!', new Date());
 
-    if (!ObjectId.isValid(req.params.postId)) {
-        res.status(403).send({ message: "Post id must be a valid number!!" });
-        console.log({ message: "Post id does not match!" })
+    if(ObjectId.isValid(req.params.postId) == false){
+        res.status(403).send({message: "Post id must be a valid number!!"});
+        console.log({message: "Post id doesnot match!"})
         return;
     }
 
-    try {
-        let search = await col.findOne({ _id: new ObjectId(req.params.postId) });
+    try{
+        let search = await col.findOne({_id : new ObjectId(req.params.postId) });
         console.log("Result : ", search);
         res.send(search);
-    } catch (e) {
+    }catch(e){
         console.log("Error in Mongodb ", e);
-        res.status(500).send({ message: "Server Error. Try again later!" })
+        res.status(500).send({message: "Server Error. Try again later!"})
     }
 })
-
 //Delete all posts
 router.delete('/posts/all', async (req, res, next) => {
     try {

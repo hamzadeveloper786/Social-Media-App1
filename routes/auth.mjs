@@ -82,6 +82,8 @@ router.post('/signup', async (req, res, next) => {
     };
 
     req.body.email = req.body.email.toLowerCase();
+    req.body.firstName = req.body.firstName.toUpperCase();
+    req.body.lastName = req.body.lastName.toUpperCase();
 
     try {
         let results = await userCollection.findOne({ email: req.body.email });

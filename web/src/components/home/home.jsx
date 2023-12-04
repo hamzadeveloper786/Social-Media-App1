@@ -43,15 +43,17 @@ const Home = () => {
         const doLikeHandler = async (_id) => {
             try {
               const response = await axios.post(`${baseURL}/api/v1/post/${_id}/dolike`);
-              console.log(response.data);
+              console.log("Posts" ,response.data);
               setIsAlert(response.data.message);
             } catch (error) {
               console.log(error?.data);
             }
           };
+          //get profile of exact person
           const getProfile = async (author_id) => {
             navigate(`/profile/${author_id}`);
           };
+          //get a single post on another page
           const seePost = async (_id) => {
             navigate(`/post/${_id}`);
           };
@@ -60,7 +62,7 @@ const Home = () => {
         <div id="logoTop">
                     <img src={logo} alt="u-app"/>
                     <div>
-                        <li><Link to={'/chat'}><ChatRight></ChatRight></Link></li>
+                        <li><Link to={'/user'}><ChatRight></ChatRight></Link></li>
                     </div>
                 </div>
                     <nav id='isLogin'>
@@ -78,7 +80,7 @@ const Home = () => {
                     <div id="postN">
                         <div class="profilePic" onClick={() => {getProfile(post.author_id);}}></div>
                         <div id="postPre">
-                            <h2>{post.author}</h2>
+                            <h2>{post.authorObject.firstName} {" "} {post.authorObject.lastName}</h2>
                             <span id="time">{moment(post.createdAt).fromNow()}</span>
                             <h4>{post.title}</h4>
                             <p>{post.text}</p>

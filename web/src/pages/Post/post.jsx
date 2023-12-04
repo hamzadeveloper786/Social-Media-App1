@@ -57,7 +57,7 @@ const Post = () =>{
       <div id="logoTop">
                     <img src={logo} alt="u-app"/>
                     <div>
-                        <li><Link to={'/chat'}><ChatRight></ChatRight></Link></li>
+                        <li><Link to={'/user'}><ChatRight></ChatRight></Link></li>
                     </div>
                 </div>
                     <nav id='isLogin'>

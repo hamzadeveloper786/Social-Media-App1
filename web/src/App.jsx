@@ -7,6 +7,7 @@ import Post from './pages/Post/post';
 import Profile from './pages/Profile/profile'
 import Login from './pages/Login/login';
 import SignUp from './pages/Signup/signup';
+import User from './pages/User/user.jsx';
 import Chat from './pages/Chat/chat.jsx';
 import ForgetPassword from './pages/Forget-Password/forget-pass.jsx';
 import SingleComment from './pages/SingleComment/SingleComment.jsx';
@@ -60,7 +61,8 @@ const App = () => {
                         <Route path="profile/:userId" element={<Profile />} />
                         <Route path="post" element={<Post />} />
                         <Route path="post/:postId" element={<SingleComment />} />
-                        <Route path="chat" element={<Chat />} />
+                        <Route path="user" element={<User />} />
+                        <Route path= '/chat/:userId' element={<Chat />} />
                         <Route path='*' element={<Navigate to='/' />} />
                     </Routes>
                 </>

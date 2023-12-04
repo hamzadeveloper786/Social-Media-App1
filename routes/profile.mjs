@@ -56,9 +56,5 @@ router.get('/user/posts', async(req, res, next) => {
         }
 })
 
-router.get(`/users`, async (req,res,next)=>{
-    console.log("Finding all Users")
-})
-
 
 export default router;

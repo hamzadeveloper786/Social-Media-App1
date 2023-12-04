@@ -1,0 +1,17 @@
+div > #arrow{
+    font-size: 1.2rem;
+    margin: 0.5em;
+    color: #d12669 ;
+}
+div#use{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 745px;
+}
+div.user-container{
+    padding: 0.5em;
+    margin: 0.5em;
+    border-bottom: 1px solid black;
+    color: #d12669;
+}

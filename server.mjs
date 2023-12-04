@@ -9,6 +9,7 @@ import authRouter from './routes/auth.mjs'
 import profileRouter from './routes/profile.mjs'
 import feedRouter from './routes/feed.mjs'
 import postRouter from './routes/post.mjs'
+import userRouter from './routes/users.mjs'
 
 const __dirname = path.resolve();
 const app = express();
@@ -19,6 +20,7 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/v1", authRouter)
+app.use("/api/v1", userRouter)
 
 
 app.use("/api/v1" ,(req, res, next) => {

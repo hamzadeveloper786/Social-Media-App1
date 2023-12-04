@@ -1,28 +1,26 @@
-import axios from "axios";
+import { useState } from "react";
+import axios from "axios"
 import moment from "moment";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { Arrow90degRight, Chat, Heart, Send } from "react-bootstrap-icons";
-import { baseURL } from "../../core.mjs"
-import './singleComment.css'
+import { useParams, useNavigate } from "react-router-dom";
+import { Arrow90degRight, Chat, Heart, ArrowLeft } from "react-bootstrap-icons";
+import { baseURL } from "../../core.mjs";
+import { useEffect } from "react";
 
 const SingleComment = () => {
-    const postId = useParams();
-    const navigate = useNavigate();
-
     const [isLoading, setIsLoading] = useState(false);
-    const [post, setPost] = useState([]);
+    const [post, setpost] = useState([]);
+    const navigate = useNavigate();
+    const postId = useParams().postId;
 
     const getSinglePost = async () =>{
         try {
             setIsLoading(true);
-            const response = await axios.get(`${baseURL}/api/v1/post/${postId.postId}`, {
+            const response = await axios.get(`${baseURL}/api/v1/post/${postId}`, {
                 withCredentials: true
             });
             console.log(response.data);
             setIsLoading(false);
-            setPost(response.data);
+            setpost(response.data);
         } catch (e) {
             console.log(e.data);
             setIsLoading(false);
@@ -34,14 +32,29 @@ const SingleComment = () => {
     useEffect(() => {
         getSinglePost();
         return () => { }
-    } , []);
+    } ,[])
+    //getting profile function 
     const getProfile = async (author_id) => {
         navigate(`/profile/${author_id}`);
       };
 
-    console.log("Post : ", post)
-    return(<div>
- <div className="post-container" >
+      //do like function
+      const doLikeHandler = async (_id) => {
+        try {
+          const response = await axios.post(`${baseURL}/api/v1/post/${postId}/dolike`);
+          console.log("Posts" ,response.data);
+        } catch (error) {
+          console.log(error?.data);
+        }
+      }
+      //back function
+      const back = () => {
+        navigate(-1);
+    }
+    return(
+        <div>
+             <ArrowLeft id='arrow' onClick={back}></ArrowLeft>
+        <div className="post-container" >
                     <div>
                     <div id="postN">
                         <div class="profilePic" onClick={() => {getProfile(post.author_id);}}></div>
@@ -60,22 +73,11 @@ const SingleComment = () => {
                     <div className="postFooter">
                         <div className="button"><Chat /></div>
                         <div className="button"><Arrow90degRight /></div>
-                        <div className="button"><Heart /> ({post?.likes?.length})</div>
-                    </div>
-                </div>
-                <div id="comment">
-                    <h4>Comments</h4>
-                    <form>
-                        <input type="text" placeholder="Enter your Comment" />
-                        <button type="submit"><Send/></button>
-                    </form>
-                    <div id="single-comment">
-                        <p>Some Comments...</p>
+                        <div className="button"onClick={(e) => {doLikeHandler(post._id);}}><Heart /> ({post?.likes?.length})</div>
                     </div>
                 </div>
                 </div>
-    </div>
-
+                </div>
     )
 }
 export default SingleComment;

@@ -192,7 +192,7 @@ const Profile = () => {
         <div id="logoTop">
                     <img src={logo} alt="u-app"/>
                     <div>
-                        <li><Link to={'/chat'}><ChatRight></ChatRight></Link></li>
+                        <li><Link to={'/user'}><ChatRight></ChatRight></Link></li>
                     </div>
                 </div>
                     <nav id='isLogin'>
@@ -224,30 +224,7 @@ const Profile = () => {
                         Joined {`${moment(profile?.data?.createdAt).format("ll")} `}
                     </span>
                 </h3>
-
-
-                <div className="profileImageContainer">
-                    <label className="editIMG" htmlFor="profileImage">
-                        {profile?.user?._id === profile?.data?._id ? (
-                            <PencilFill
-                                style={{ fontSize: "0.8em" }}
-                                className="pencil"
-                            />
-                        ) : null}
-                    </label>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        className="file hidden"
-                        id="profileImage"
-                        accept="image/*"
-                        onChange={(e) => {
-                            const base64Url = URL.createObjectURL(e.target.files[0]);
-                            setSelectedImage(base64Url);
-                        }}
-                    />
-                </div>
-                <div className="profileActions">
+     <div className="profileActions">
                     {state.user._id === profile?.data?._id ? (
                         <button className="logOutButton" onClick={logoutHandler}>
                             Log Out
