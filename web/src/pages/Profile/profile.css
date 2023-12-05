@@ -47,7 +47,7 @@ div#top > div.profile{
     flex-direction: column;
     gap: 0.5em;
     justify-content: right;
-    padding: 3em 1em 1em;
+    padding: 1em 1em 1em;
     position: static;
 }
 div#top > div.profile > img{

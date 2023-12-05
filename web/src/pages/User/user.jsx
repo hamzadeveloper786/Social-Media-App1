@@ -45,7 +45,7 @@ const User = () => {
             <ArrowLeft id='arrow' onClick={back}></ArrowLeft>
             <div id="use">
             {allUsers.map((user, index) => (
-                <div className="user-container" >
+                <div key={index} className="user-container" >
                     <div id="userDiv">
                         <div id="userDetail">
                             <h4 onClick={()=>{seeChat(user._id)}}>{user.firstName} {" "} {" "} {user.lastName}</h4>

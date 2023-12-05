@@ -10,6 +10,7 @@ import profileRouter from './routes/profile.mjs'
 import feedRouter from './routes/feed.mjs'
 import postRouter from './routes/post.mjs'
 import userRouter from './routes/users.mjs'
+import chatRouter from './routes/chat.mjs'
 
 const __dirname = path.resolve();
 const app = express();
@@ -20,7 +21,6 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/v1", authRouter)
-app.use("/api/v1", userRouter)
 
 
 app.use("/api/v1" ,(req, res, next) => {
@@ -37,17 +37,27 @@ app.use("/api/v1" ,(req, res, next) => {
                 email: decoded.email,
             }
         }
+        req.currentUser = {
+            firstName: decoded.firstName,
+            lastName: decoded.lastName,
+            email: decoded.email,
+            isAdmin: decoded.isAdmin,
+            _id: decoded._id,
+        };
+
     next();
 }
         catch(e){
             res.status(401).send({ message: "Invalid token" })
         }
-})
-
-
-app.use("/api/v1", postRouter)
-app.use("/api/v1", profileRouter)
-app.use("/api/v1", feedRouter)
+    })
+    
+    
+    app.use("/api/v1", postRouter)
+    app.use("/api/v1", profileRouter)
+    app.use("/api/v1", feedRouter)
+    app.use("/api/v1", userRouter)
+    app.use("/api/v1", chatRouter)
 
 app.use('/', express.static(path.join(__dirname, './web/build')))
 app.get('*', (req, res, next)=>{
