@@ -45,6 +45,7 @@ const Home = () => {
               const response = await axios.post(`${baseURL}/api/v1/post/${_id}/dolike`);
               console.log("Posts" ,response.data);
               setIsAlert(response.data.message);
+              setToggleRefresh(!toggleRefresh);
             } catch (error) {
               console.log(error?.data);
             }

@@ -73,7 +73,7 @@ const Chat = () => {
         getProfile();
         getChat();
         return () => { }
-    }, [])
+    },[])
     //back to previous page
     const back = () => {
         navigate(-1);
@@ -82,7 +82,8 @@ const Chat = () => {
         <div id='chat'>
             <div id="header">
                 <ArrowLeft id='arrow' onClick={back}></ArrowLeft>
-                <h1>{profile?.data?.firstName} {" "} {profile?.data?.lastName} </h1>
+                <h1>{profile?.data?.firstName} {" "} {profile?.data?.lastName} </h1><br />
+                <h5>Realtime is under Constrution</h5>
             </div>
             <div id='messages'>
                 {chat.map((eachMessage, index) => (

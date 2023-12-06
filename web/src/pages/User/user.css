@@ -15,3 +15,6 @@ div.user-container{
     border-bottom: 1px solid black;
     color: #d12669;
 }
+div#userDiv > div#userDetail > h4:hover{
+    cursor: pointer;
+}

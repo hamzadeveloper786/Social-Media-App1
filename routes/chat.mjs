@@ -60,11 +60,9 @@ router.post("/message", multer().none(), async (req, res, next) => {
         const insertResponse = await messagesCollection.insertOne({
 
             fromName: req.currentUser.firstName + " " + req.currentUser.lastName,
-            fromEamil: req.currentUser.email, // malik@abc.com
-            from_id: new ObjectId(req.currentUser._id), // 245523423423424234
-
+            fromEamil: req.currentUser.email,
+            from_id: new ObjectId(req.currentUser._id),
             to_id: new ObjectId(req.body.to_id),
-
             messageText: req.body.message,
             imgUrl: req.body.imgUrl,
             createdOn: new Date()
@@ -75,10 +73,8 @@ router.post("/message", multer().none(), async (req, res, next) => {
         console.log("error sending message mongodb: ", e);
         res.status(500).send({ message: 'server error, please try later' });
     }
-
-
 });
-
+//getting a messages
 router.get("/messages/:from_id", async (req, res, next) => {
 
     if (!req.params.from_id) {
@@ -94,8 +90,6 @@ router.get("/messages/:from_id", async (req, res, next) => {
         res.status(403).send(`Invalid user id`);
         return;
     }
-
-
     const cursor = messagesCollection.find({
         $or: [
             {
@@ -109,10 +103,7 @@ router.get("/messages/:from_id", async (req, res, next) => {
             }
         ]
     })
-
-        // .sort({ _id: -1 })
         .limit(100);
-
     try {
         let results = await cursor.toArray()
         console.log("results: ", results);
@@ -121,15 +112,5 @@ router.get("/messages/:from_id", async (req, res, next) => {
         console.log("error getting data mongodb: ", e);
         res.status(500).send('server error, please try later');
     }
-
-
-
-
-
 });
-
-
-
-
-
 export default router

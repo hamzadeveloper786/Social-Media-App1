@@ -20,7 +20,6 @@ const User = () => {
         try {
             setIsLoading(true);
             const response = await axios.get(`${baseURL}/api/v1/users`);
-            console.log(response.data);
             setIsLoading(false);
             setAllUsers(response.data);
         } catch (e) {
