@@ -83,7 +83,7 @@ const Chat = () => {
             <div id="header">
                 <ArrowLeft id='arrow' onClick={back}></ArrowLeft>
                 <h1>{profile?.data?.firstName} {" "} {profile?.data?.lastName} </h1><br />
-                <h5>Realtime is under Constrution</h5>
+                <span>Realtime is Under Construction</span>
             </div>
             <div id='messages'>
                 {chat.map((eachMessage, index) => (

@@ -23,6 +23,7 @@
     "multer": "^1.4.5-lts.1",
     "otp-generator": "^4.0.1",
     "path": "^0.12.7",
+    "socket.io": "^4.7.2",
     "sweetalert2": "^11.7.31"
   },
   "devDependencies": {

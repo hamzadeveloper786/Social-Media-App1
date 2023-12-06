@@ -5,6 +5,9 @@ import jwt from 'jsonwebtoken';
 import 'dotenv/config'
 import cookieParser from 'cookie-parser';
 import './mongodb.mjs'
+import { createServer } from 'http';
+import { Server as socketIo } from 'socket.io';
+import { globalIoObject, socketUsers } from './core.mjs'
 import authRouter from './routes/auth.mjs'
 import profileRouter from './routes/profile.mjs'
 import feedRouter from './routes/feed.mjs'
@@ -62,6 +65,39 @@ app.use("/api/v1" ,(req, res, next) => {
 app.use('/', express.static(path.join(__dirname, './web/build')))
 app.get('*', (req, res, next)=>{
     res.sendFile(path.join(__dirname, './web/build/index.html'))
+})
+
+// THIS IS THE ACTUAL SERVER WHICH IS RUNNING
+const server = createServer(app);
+// handing over server access to socket.io
+const io = new socketIo(server, {
+    cors: {
+        origin: ["*", "http://localhost:3000"],
+        methods: "*",
+        credentials: true
+    }
+});
+globalIoObject.io = io;
+io.use((socket, next) => {
+    console.log("socket middleware");
+    // Access cookies, including secure cookies
+    const parsedCookies = cookie.parse(socket.request.headers.cookie || "");
+    console.log("parsedCookies: ", parsedCookies.token);
+    try {
+        const decoded = jwt.verify(parsedCookies.token, process.env.SECRET);
+        console.log("decoded: ", decoded);
+        socketUsers[decoded._id] = socket;
+        socket.on("disconnect", (reason, desc) => {
+            console.log("disconnect event: ", reason, desc); // "ping timeout"
+        });
+        next();
+    } catch (err) {
+        return next(new Error('Authentication error'));
+    }
+});
+io.on("connection", (socket) => {
+    console.log("New client connected with id: ", socket.id);
+
 })
 
 const PORT = process.env.PORT || 3001;

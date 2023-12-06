@@ -21,6 +21,11 @@ div#header > h1{
     font-size: 1.5em;
     margin-top: 0.6em;
 }
+div#header > span{
+    margin-left: 0.8em;
+    color: silver;
+    font-size: 0.8em;
+}
 div#messages{
     display: flex;
     flex-direction: column;
