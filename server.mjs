@@ -2,11 +2,11 @@ import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
-import 'dotenv/config'
-import cookieParser from 'cookie-parser';
-import './mongodb.mjs'
 import { createServer } from 'http';
+import cookieParser from 'cookie-parser';
 import { Server as socketIo } from 'socket.io';
+import './mongodb.mjs'
+import 'dotenv/config'
 import { globalIoObject, socketUsers } from './core.mjs'
 import authRouter from './routes/auth.mjs'
 import profileRouter from './routes/profile.mjs'
@@ -14,6 +14,10 @@ import feedRouter from './routes/feed.mjs'
 import postRouter from './routes/post.mjs'
 import userRouter from './routes/users.mjs'
 import chatRouter from './routes/chat.mjs'
+import { client } from './mongodb.mjs';
+const db = client.db("crudop");
+const usersCollection = db.collection("users");
+const col = db.collection("posts");
 
 const __dirname = path.resolve();
 const app = express();
@@ -31,7 +35,6 @@ app.use("/api/v1" ,(req, res, next) => {
     try{
         const decoded = jwt.verify(token, process.env.SECRET);
         console.log("decoded: ", decoded);
-        {
             req.body.decoded = {
                 _id: decoded._id,
                 isAdmin: decoded.isAdmin,
@@ -39,7 +42,6 @@ app.use("/api/v1" ,(req, res, next) => {
                 lastName: decoded.lastName,
                 email: decoded.email,
             }
-        }
         req.currentUser = {
             firstName: decoded.firstName,
             lastName: decoded.lastName,
@@ -74,7 +76,7 @@ const io = new socketIo(server, {
     cors: {
         origin: ["*", "http://localhost:3000"],
         methods: "*",
-        credentials: true
+        credentials: true,
     }
 });
 globalIoObject.io = io;

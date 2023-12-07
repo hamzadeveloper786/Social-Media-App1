@@ -1,10 +1,14 @@
 import express from 'express';
 import { client } from './../mongodb.mjs'
 import { ObjectId } from 'mongodb'
-import multer, { diskStorage } from 'multer';
+import multer from 'multer';
+import { globalIoObject, socketUsers } from '../core.mjs';
+
 const db = client.db("crudop");
 const messagesCollection = db.collection("messages");
+
 let router = express.Router()
+//posting message 
 router.post("/message", multer().none(), async (req, res, next) => {
 
     console.log("req.body: ", req.body);
@@ -27,17 +31,26 @@ router.post("/message", multer().none(), async (req, res, next) => {
     }
 
     try {
-        const insertResponse = await messagesCollection.insertOne({
+        const newMessage = {
 
             fromName: req.currentUser.firstName + " " + req.currentUser.lastName,
-            fromEamil: req.currentUser.email,
+            fromEmail: req.currentUser.email,
             from_id: new ObjectId(req.currentUser._id),
             to_id: new ObjectId(req.body.to_id),
             messageText: req.body.message,
-            imgUrl: req.body.imgUrl,
             createdOn: new Date()
-        });
+        };
+        const insertResponse = await messagesCollection.insertOne(newMessage);
         console.log("insertResponse: ", insertResponse);
+        newMessage._id = insertResponse.insertedId;
+
+        if(socketUsers[req.body.to_id]){
+            socketUsers[req.body.to_id].emit('newMessage', newMessage);
+            socketUsers[req.body.to_id].emit(`Notifications`, `New Message from ${req.currentUser.firstName}: ${req.body.message}`);
+        }else{
+            console.log("This User is not Online!")
+        }
+
         res.send({ message: 'message sent' });
     } catch (e) {
         console.log("error sending message mongodb: ", e);
@@ -76,7 +89,6 @@ router.get("/messages/:from_id", async (req, res, next) => {
         .limit(100);
     try {
         let results = await cursor.toArray()
-        console.log("results: ", results);
         res.send(results);
     } catch (e) {
         console.log("error getting data mongodb: ", e);

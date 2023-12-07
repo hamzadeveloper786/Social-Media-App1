@@ -2,12 +2,34 @@ import { useEffect, useRef, useState, useContext } from 'react';
 import axios from 'axios';
 import { ArrowLeft, PlusLg, Send } from 'react-bootstrap-icons';
 import { useParams, useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
 import './chat.css';
 import { baseURL } from '../../core.mjs';
 import { GlobalContext } from '../../context/context.mjs';
 const Chat = () => {
 
     let {state, dispatch} = useContext(GlobalContext);
+    useEffect(()=>{
+        const socket = io(baseURL,{
+            secure: true,
+            withCredentials: true,
+        });
+        socket.on('connect', ()=>{
+            console.log("connected");
+        });
+        socket.on('disconnect', (message)=>{
+            console.log("Socket disconnected from Server", message);
+        });
+        socket.on("New_Message", (e)=>{
+            setChat((prev)=>{
+                return[e, ...prev];
+            });
+        })
+        return () => {
+            socket.close();
+                socket.disconnect();
+        }
+    },[])
     const navigate = useNavigate();
     const [chat, setChat] = useState([]);
     const userId = useParams().userId;
@@ -24,35 +46,6 @@ const Chat = () => {
             setProfile(response.data);
         } catch (e) {
             console.log(e.data);
-        }
-    }
-    //send message 
-    const sendMessageHandler = async (event) => {
-        event.preventDefault();
-        console.log(message.current.value);
-
-        try {
-            setIsLoading(true);
-            let formData = new FormData();
-
-            formData.append("to_id", userId);
-            formData.append("message", message.current.value);
-            // formData.append("image", aaa.current.files[0]);
-
-            const response = await axios.post(
-                `${baseURL}/api/v1/message`,
-                formData,
-                {
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                })
-            setIsLoading(false);
-            setToggleRefresh(!toggleRefresh);
-            console.log(response.data);
-            event.target.reset();
-        } catch (error) {
-            // handle error
-            console.log(error?.data);
-            setIsLoading(false);
         }
     }
     //get messages
@@ -73,7 +66,34 @@ const Chat = () => {
         getProfile();
         getChat();
         return () => { }
-    },[])
+    },[toggleRefresh])
+    //send message 
+    const sendMessageHandler = async (event) => {
+        event.preventDefault();
+
+        try {
+            setIsLoading(true);
+            let formData = new FormData();
+
+            formData.append("to_id", userId);
+            formData.append("message", message.current.value);
+            // formData.append("image", aaa.current.files[0]);
+
+            const response = await axios.post(
+                `${baseURL}/api/v1/message`,
+                formData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                })
+            setIsLoading(false);
+            setToggleRefresh(!toggleRefresh);
+            event.target.reset();
+        } catch (error) {
+            // handle error
+            console.log(error?.data);
+            setIsLoading(false);
+        }
+    }
     //back to previous page
     const back = () => {
         navigate(-1);

@@ -1,7 +1,8 @@
-import { useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { GlobalContext } from './context/context.mjs';
 import axios from 'axios';
+import io from 'socket.io-client';
 import Home from './components/home/home';
 import Post from './pages/Post/post';
 import Profile from './pages/Profile/profile'
@@ -19,6 +20,35 @@ import { baseURL } from './core.mjs'
 const App = () => {
 
     const { state, dispatch } = useContext(GlobalContext);
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        const socket = io(baseURL,{
+            secure: true,
+            withCredentials: true,
+        });
+        socket.on('connect', ()=>{
+            console.log('connected');
+        });
+        socket.on('disconnect', (message)=>{
+            console.log('Socket disconnected from Server', message);
+        });
+        socket.on('notification', (e)=>{
+            const location = window.location.pathname;
+            console.log("New item from Server", location);
+            if(!location.includes("chat")){
+                setNotifications((prev)=>{
+                    return [e, ...prev];
+                })
+            }
+            setTimeout(()=>{
+                setNotifications([])
+            },10000);
+        })
+        return () => {
+            socket.close();
+        }
+    },[state])
 
     useEffect(() => {
         // Add a request interceptor
