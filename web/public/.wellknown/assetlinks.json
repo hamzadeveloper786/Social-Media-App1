@@ -1,8 +1,0 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "app.cyclic.hamza1.twa",
-        "sha256_cert_fingerprints": ["D2:8D:3C:0C:A8:2F:49:AE:82:C4:A3:0F:B7:2E:E2:B4:9F:53:A0:44:03:80:08:0A:23:B4:8D:51:33:DB:6C:40"]
-      }
-    }]
